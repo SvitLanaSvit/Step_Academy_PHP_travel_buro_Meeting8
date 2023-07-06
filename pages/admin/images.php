@@ -34,15 +34,16 @@ if (isset($_SESSION['imageadderr'])) {
         ?>
     </tbody>
 </table>
-<form method="post" id="imgform">
+<form method="post" id="imgform" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="imagepath" class="form-label">Image path</label>
-        <input type="text" class="form-control" id="imagepath" placeholder="Add new image path..." name="imagepath">
+        <!-- <input type="text" class="form-control" id="imagepath" placeholder="Add new image path..." name="imagepath"> -->
+        <input type="file" class="form-control" id="formFile" placeholder="Add new photo..." name="photo[]" multiple>
     </div>
 
     <div class="mb-3">
         <select class="form-select" aria-label="Default select example" name='hotelId'>
-            <option value=0 selected>Choose image</option>
+            <option value=0 selected>Choose hotel...</option>
             <?
             $q13 = "SELECT * FROM hotels";
             $res = mysqli_query($link, $q13);
@@ -58,18 +59,29 @@ if (isset($_SESSION['imageadderr'])) {
 <?
 if (isset($_POST['addimage'])) {
     $hotelId = $_POST['hotelId'];
-    $imagepath = $_POST['imagepath'];
 
-    $q14 = "INSERT INTO images(`ImagePath`, `HotelId`)VALUES(\"$imagepath\", $hotelId)";
-    $res = mysqli_query($link, $q14);
-    $err = mysqli_errno($link);
-    if ($err) {
-        $_SESSION["imageadderr"] = "Error when adding image!";
-    } else {
-        unset($_SESSION["imageadderr"]);
-        echo "<script>location = document.URL</script>";
+    if ($_FILES && isset($_FILES['photo']) && $_FILES['photo']['error'][0] == UPLOAD_ERR_OK) {
+
+        foreach($_FILES['photo']['name'] as $k=>$v){
+            if($_FILES['photo']['error'][$k] != 0){
+                echo "<script>alert('Uppload file error: ".$v." ')</script>";
+                continue;
+            }
+            if(move_uploaded_file($_FILES['photo']['tmp_name'][$k], "images/".$v)){
+                $imagepath = "images/".$v;
+                $q14 = "INSERT INTO images(`ImagePath`, `HotelId`)VALUES(\"$imagepath\", $hotelId)";
+                $res = mysqli_query($link, $q14);
+                $err = mysqli_errno($link);
+                if ($err) {
+                    $_SESSION["imageadderr"] = "Error when adding image!";
+                } else {
+                    unset($_SESSION["imageadderr"]);
+                    echo "<script>location = document.URL</script>";
+                }
+            }
+        }
+        mysqli_free_result($res);
     }
-    mysqli_free_result($res);
 }
 
 if (isset($_POST['deleteimage'])) {

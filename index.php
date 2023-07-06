@@ -48,7 +48,7 @@ session_start();
         }
 
         .bg-custom-color {
-            background-color: rgba(47,79,79,0.8);
+            background-color: rgba(47, 79, 79, 0.8);
         }
 
         section {
@@ -87,10 +87,48 @@ session_start();
                             include_once("pages/comments.php");
                             break;
                         case 3:
-                            include_once("pages/admin.php");
-                            break;
+                            if (isset($_SESSION['roleUser'])) {
+                                if ($_SESSION['roleUser'] == 'Admin') {
+                                    include_once("pages/admin.php");
+                                    break;
+                                } else {
+                                    echo "<script>alert('Only admin can go in!');</script>";
+                                    echo "<script>
+                                                setTimeout(()=>{
+                                                    location = 'index.php?page=1';
+                                                }, 10)
+                                            </script>";
+                                    break;
+                                }
+                            } else {
+                                echo "<script>alert('You should log in!');</script>";
+                                echo "<script>
+                                            setTimeout(()=>{
+                                                location = 'index.php?page=1'
+                                            }, 10);
+                                        </script>";
+                                break;
+                            }
                         case 4:
-                            include_once("pages/registration.php");
+                            if(!isset($_SESSION['login'])){
+                                include_once("pages/registration.php");
+                                break;
+                            }
+                            else{
+                                echo "<script>alert('You are already regitered!');</script>";
+                                echo "<script>
+                                            setTimeout(()=>{
+                                                location = 'index.php?page=1'
+                                            }, 10);
+                                        </script>";
+                                break;
+                            }
+                            
+                        case 5:
+                            include_once("pages/login.php");
+                            break;
+                        case 6:
+                            include_once("pages/logout.php");
                             break;
                         default:
                             echo "<h2>Page does not found!</h2>";

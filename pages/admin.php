@@ -42,5 +42,8 @@ $link = connect_to_db("localhost", "root", "", "traveldb", 3307);
             include_once("admin/users.php");
             ?>
         </div>
+        <div class="col">
+
+        </div>
     </div>
 </div>

@@ -58,7 +58,15 @@ if (isset($_SESSION['hoteladderr'])) {
 
     <div class="mb-3">
         <label for="stars" class="form-label">Stars</label>
-        <input type="number" class="form-control" id="stars" placeholder="Add stars from 0 to 5" name="stars" min="0" max="5">
+        <select class="form-select" aria-label="Default select example" name='stars'>
+            <option value=0 selected>Choose count of stars</option>
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+        </select>
+        <!-- <input type="number" class="form-control" id="stars" placeholder="Add stars from 0 to 5" name="stars" min="0" max="5"> -->
     </div>
 
     <div class="mb-3">

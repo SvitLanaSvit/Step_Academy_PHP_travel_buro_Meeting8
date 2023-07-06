@@ -10,7 +10,7 @@ if (isset($_SESSION['useradderr'])) {
             <th>Id</th>
             <th>Login</th>
             <th>Email</th>
-            <th>Password</th>
+            <th>Photo</th>
             <th>Discount</th>
             <th>Role</th>
             <th></th>
@@ -18,7 +18,7 @@ if (isset($_SESSION['useradderr'])) {
     </thead>
     <tbody>
         <?
-        $query18 = "SELECT u.Id, u.Login, u.Email, u.Passwrd, u.Discount, r.RoleName FROM users u LEFT JOIN roles r ON r.Id = u.RoleId";
+        $query18 = "SELECT u.Id, u.Login, u.Email, u.Photo, u.Discount, r.RoleName FROM users u LEFT JOIN roles r ON r.Id = u.RoleId";
         $res = mysqli_query($link, $query18);
         $err = mysqli_errno($link);
         if ($err) {
@@ -29,7 +29,15 @@ if (isset($_SESSION['useradderr'])) {
                 echo "<td>$row[0]</td>";
                 echo "<td>$row[1]</td>";
                 echo "<td>$row[2]</td>";
-                echo "<td>$row[3]</td>";
+                if($row[3] != null){
+                    $base64Image = base64_encode($row[3]);
+                    $dataUrl = 'data:image/jpeg;base64,'.$base64Image;
+                    echo "<td><img style='width: 80px;' src=$dataUrl alt='userId_".$row[0]."'></td>";
+                }
+                else{
+                    echo "<td></td>";
+                }
+                
                 echo "<td>$row[4]</td>";
                 echo "<td>$row[5]</td>";
                 echo "<td><input type='checkbox' class='form-check-input' name='delusers[]' value='" . $row[0] . "' form='userform'/></td>";

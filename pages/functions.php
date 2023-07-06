@@ -20,6 +20,19 @@ function getUsersFromSQL($host, $username, $password, $dbname, $port){
     return mysqli_query($link, $queryText);
 }
 
+function getRoleUser($host, $username, $password, $dbname, $port, $login){
+    $link = connect_to_db($host, $username, $password, $dbname, $port);
+    $queryText = "SELECT r.RoleName FROM users u LEFT JOIN roles r ON r.Id = u.RoleId WHERE Login = '$login'";
+    $res = mysqli_query($link, $queryText);
+
+    if($res && mysqli_num_rows($res)){
+        $row = mysqli_fetch_assoc($res);
+        return $row['RoleName'];
+    }
+
+    return null;
+}
+
 function register($host, $username, $password, $dbname, $port, $user){
     $link = connect_to_db($host, $username, $password, $dbname, $port);
     $queryText = "INSERT INTO users(`Login`, `Email`, `Passwrd`)VALUES('$user->login', '$user->email', '$user->password')";
