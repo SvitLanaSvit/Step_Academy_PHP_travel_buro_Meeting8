@@ -67,9 +67,7 @@ if (isset($_POST['addcity'])) {
         $_SESSION["cityadderr"] = "Error when adding city!";
     } else {
         unset($_SESSION["cityadderr"]);
-        echo "<script>
-                                location = document.URL
-                            </script>";
+        echo "<script>location = document.URL</script>";
     }
     mysqli_free_result($res);
 }

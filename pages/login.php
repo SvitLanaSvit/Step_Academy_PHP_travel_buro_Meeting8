@@ -58,10 +58,12 @@
 
             if ($isLogIn) {
                 $roleUser = getRoleUser("localhost", "root", "", "traveldb", 3307, $login);
+                $idUser = getIdUser("localhost", "root", "", "traveldb", 3307, $login);
                 if ($roleUser != null) {
                     session_start();
                     $_SESSION['login'] = $login;
                     $_SESSION['roleUser'] = $roleUser;
+                    $_SESSION['id'] = $idUser;
                     echo "<div style='color: green; text-align: center;'>You have successfully passed the verification</div>";
                     echo "<script>
                                 setTimeout(()=>{

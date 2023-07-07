@@ -84,8 +84,19 @@ session_start();
                             include_once("pages/tours.php");
                             break;
                         case 2:
-                            include_once("pages/comments.php");
-                            break;
+                            if (isset($_SESSION['roleUser'])){
+                                include_once("pages/comments.php");
+                                break;
+                            }
+                            else{
+                                echo "<script>alert('You should log in!');</script>";
+                                echo "<script>
+                                            setTimeout(()=>{
+                                                location = 'index.php?page=1'
+                                            }, 10);
+                                        </script>";
+                                break;
+                            }
                         case 3:
                             if (isset($_SESSION['roleUser'])) {
                                 if ($_SESSION['roleUser'] == 'Admin') {
