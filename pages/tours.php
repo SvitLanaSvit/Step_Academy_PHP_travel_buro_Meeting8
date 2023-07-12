@@ -16,17 +16,14 @@ $link = connect_to_db("localhost", "root", "", "traveldb", 3307);
                 $q2 = "SELECT im.ImagePath FROM Hotels h LEFT JOIN Images im ON h.Id = im.HotelId Where h.Id = ".$row[0]." LIMIT 1";
                 $res2 = mysqli_query($link, $q2);
 
-                if(mysqli_num_rows($res2) > 0){
-                    $imageRow = mysqli_fetch_array($res2, MYSQLI_NUM);
-                    $imagePath = $imageRow[0];
-                }
-                else{
+                $imageRow = mysqli_fetch_array($res2, MYSQLI_NUM);
+                $imagePath = $imageRow[0];
+                if($imagePath === null){
                     $imagePath = "/images/sand_pebbles1.jpg";
-                }
-                
+                }    
         ?>
                 <div class="card mb-3">
-                    <img src=<? echo $imagePath; ?> class="card-img-top" alt="<?php echo $row[1]; ?>">
+                    <img style="object-fit: cover; height: 25vh;" src=<? echo $imagePath; ?> class="card-img-top" alt="<?php echo $row[1]; ?>">
                     <div class="card-body">
                         <h5 class="card-title"><?echo $row[1]?></h5>
                         <p class="card-text"><?echo $row[2]?></p>

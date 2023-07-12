@@ -59,7 +59,7 @@ if (isset($_SESSION['cityadderr'])) {
 if (isset($_POST['addcity'])) {
     $countryId = $_POST['countryId'];
     $cityname = $_POST['cityname'];
-    echo $cityname;
+    //echo $cityname;
     $q6 = "INSERT INTO cities(`City`, `CountryId`)VALUES('$cityname', $countryId)";
     $res = mysqli_query($link, $q6);
     $err = mysqli_errno($link);
